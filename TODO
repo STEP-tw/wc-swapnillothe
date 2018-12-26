@@ -1,0 +1,5 @@
+* for single file with no option return word line and char count.
+
+* for a file and -l has completed it's dummy idea because not checking -l option.
+
+* util function should be in separate file.
