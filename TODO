@@ -3,3 +3,5 @@
 * for a file and -l has completed it's dummy idea because not checking -l option.
 
 * util function should be in separate file.
+
+* parsing should be in different file.
