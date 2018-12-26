@@ -3,7 +3,7 @@ const {
 } = require('../src/parser.js');
 
 const {
-  TAB,
+  SPACE,
   EMPTY_STRING,
   countChars,
   countLines,
@@ -21,15 +21,15 @@ const wc = function (args, fs) {
 
   if (hasLinesCountOption(options)) {
     count = countLines(file) - 1;
-    delimeter = TAB;
+    delimeter = SPACE;
   }
   if (hasWordsCountOption(options)) {
     count = count + delimeter + countWords(file);
-    delimeter = TAB;
+    delimeter = SPACE;
   }
   if (hasCharsCountOption(options)) {
     count = count + delimeter + countChars(file);
-    delimeter = TAB;
+    delimeter = SPACE;
   }
   count = count + delimeter + files;
   return count;

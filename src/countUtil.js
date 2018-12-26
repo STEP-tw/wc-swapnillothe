@@ -29,5 +29,6 @@ module.exports = {
   hasLinesCountOption,
   hasWordsCountOption,
   TAB,
-  EMPTY_STRING
+  EMPTY_STRING,
+  SPACE
 }
