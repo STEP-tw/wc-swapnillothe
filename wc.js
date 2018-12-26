@@ -30,11 +30,12 @@
   node ./wc.js -c -l -w file1 [file2]...
 */
 
-const {wc} = require('./src/counter.js');
+const { wc } = require('./src/counter.js');
 const fs = require('fs');
 
 const main = function () {
-  console.log(wc(process.argv.slice(2)),fs);
+  let args = process.argv.slice(2);
+  console.log(wc(args, fs));
 }
 
 main();
