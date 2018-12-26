@@ -1,24 +1,38 @@
-const countLines = function (text) {
-  return text.split('\n').length;
-}
+const {
+  parseArgs
+} = require('../src/parser.js');
 
-const countChars = (text) => text.length;
-
-const countWords = function (text) {
-  let textWithoutNewLine = text.replace(/\n/g, ' ');
-  return textWithoutNewLine.split(' ').length;
-}
+const {
+  TAB,
+  EMPTY_STRING,
+  countChars,
+  countLines,
+  countWords,
+  hasCharsCountOption,
+  hasLinesCountOption,
+  hasWordsCountOption
+} = require('../src/countUtil.js')
 
 const wc = function (args, fs) {
-  let file = fs.readFileSync(args[1], 'utf8');
-  let count = countLines(file) - 1;
-  if (args[0] == '-c') {
-    count = countChars(file);
+  const { options, files } = parseArgs(args);
+  let file = fs.readFileSync(files, 'utf8');
+  let delimeter = EMPTY_STRING;
+  let count = EMPTY_STRING;
+
+  if (hasLinesCountOption(options)) {
+    count = countLines(file) - 1;
+    delimeter = TAB;
   }
-  if (args[0] == '-w') {
-    count = countWords(file);
+  if (hasWordsCountOption(options)) {
+    count = count + delimeter + countWords(file);
+    delimeter = TAB;
   }
-  return `${count} ${args[1]}`
+  if (hasCharsCountOption(options)) {
+    count = count + delimeter + countChars(file);
+    delimeter = TAB;
+  }
+  count = count + delimeter + files;
+  return count;
 }
 
 module.exports = {
