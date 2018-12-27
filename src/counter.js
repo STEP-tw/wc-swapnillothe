@@ -19,20 +19,21 @@ const joins = function (element1, element2, delimeter) {
 
 const wc = function (args, fs) {
   const { options, files } = parseArgs(args);
-  let filesContent = fs.readFileSync(files, 'utf8');
+  let singleFile = files[0];
+  let fileContent = fs.readFileSync(singleFile, 'utf8');
   let delimeter = EMPTY_STRING;
   let count = EMPTY_STRING;
 
   if (hasLinesCountOption(options)) {
-    count = joins(count, countLines(filesContent) - 1, delimeter);
+    count = joins(count, countLines(fileContent) - 1, delimeter);
     delimeter = TAB;
   }
   if (hasWordsCountOption(options)) {
-    count = joins(count, countWords(filesContent), delimeter);
+    count = joins(count, countWords(fileContent), delimeter);
     delimeter = TAB;
   }
   if (hasCharsCountOption(options)) {
-    count = joins(count, countChars(filesContent), delimeter);
+    count = joins(count, countChars(fileContent), delimeter);
     delimeter = TAB;
   }
   count = count + delimeter + files;
