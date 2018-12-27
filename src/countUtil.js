@@ -1,5 +1,5 @@
 const SPACE = ' ';
-const TAB = '\t';
+const TAB = '  ';
 const L_LETTER = 'l';
 const W_LETTER = 'w';
 const C_LETTER = 'c';

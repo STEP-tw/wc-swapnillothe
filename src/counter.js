@@ -3,7 +3,7 @@ const {
 } = require('../src/parser.js');
 
 const {
-  SPACE,
+  TAB,
   EMPTY_STRING,
   countChars,
   countLines,
@@ -13,23 +13,27 @@ const {
   hasWordsCountOption
 } = require('../src/countUtil.js')
 
+const joins = function (element1, element2, delimeter) {
+  return [element1, delimeter, element2].join('');
+}
+
 const wc = function (args, fs) {
   const { options, files } = parseArgs(args);
-  let file = fs.readFileSync(files, 'utf8');
+  let filesContent = fs.readFileSync(files, 'utf8');
   let delimeter = EMPTY_STRING;
   let count = EMPTY_STRING;
 
   if (hasLinesCountOption(options)) {
-    count = countLines(file) - 1;
-    delimeter = SPACE;
+    count = joins(count, countLines(filesContent) - 1, delimeter);
+    delimeter = TAB;
   }
   if (hasWordsCountOption(options)) {
-    count = count + delimeter + countWords(file);
-    delimeter = SPACE;
+    count = joins(count, countWords(filesContent), delimeter);
+    delimeter = TAB;
   }
   if (hasCharsCountOption(options)) {
-    count = count + delimeter + countChars(file);
-    delimeter = SPACE;
+    count = joins(count, countChars(filesContent), delimeter);
+    delimeter = TAB;
   }
   count = count + delimeter + files;
   return count;
