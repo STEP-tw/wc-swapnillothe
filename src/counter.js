@@ -4,7 +4,6 @@ const {
 
 const {
   TAB,
-  EMPTY_STRING,
   countChars,
   countLines,
   countWords,
@@ -13,14 +12,8 @@ const {
   hasWordsCountOption
 } = require('../src/countUtil.js')
 
-const joins = function (element1, element2, delimeter) {
-  return [element1, delimeter, element2].join('');
-}
-
-const wcForSingleFile = function (args, fs) {
-  const { options, files } = parseArgs(args);
-  let singleFile = files[0];
-  let fileContent = fs.readFileSync(singleFile, 'utf8');
+const wcForSingleFile = function (fs, options, filePath) {
+  let fileContent = fs.readFileSync(filePath, 'utf8');
   let count = [];
 
   if (hasLinesCountOption(options)) {
@@ -32,18 +25,43 @@ const wcForSingleFile = function (args, fs) {
   if (hasCharsCountOption(options)) {
     count.push(countChars(fileContent));
   }
-  count = joinCounts(count, files);
   return count;
 }
 
-const joinCounts = function (counts, file) {
-  let joinedCounts = counts.concat(file);
+const totalCounts = function (counts) {
+  let totalCounts = [];
+  for (let countIndex = 0; countIndex < counts[0].length; countIndex++) {
+    totalCounts[countIndex] = counts.reduce(
+      (accumulator, count) =>
+        accumulator[countIndex] + count[countIndex]
+    );
+  }
+  return totalCounts;
+}
+
+const joinCount = function (counts, filePath) {
+  let joinedCounts = counts.concat(filePath);
   return joinedCounts.join(TAB);
 }
 
+const joinCounts = function (counts, filePaths) {
+  let joinedCounts = [];
+  for (let index = 0; index < counts.length; index++) {
+    joinedCounts.push(joinCount(counts[index], filePaths[index]));
+  }
+  return joinedCounts;
+}
 
 const wc = function (args, fs) {
-  return wcForSingleFile(args, fs)
+  const { options, filePaths } = parseArgs(args);
+  let bindedWc = wcForSingleFile.bind(null, fs, options);
+  let counts = filePaths.map(bindedWc);
+  if (filePaths.length > 1) {
+    counts.push(totalCounts(counts));
+    filePaths.push('total');
+  }
+  counts = joinCounts(counts, filePaths).join('\n');
+  return counts;
 }
 
 module.exports = {
