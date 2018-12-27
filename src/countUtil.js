@@ -5,6 +5,8 @@ const W_LETTER = 'w';
 const C_LETTER = 'c';
 const EMPTY_STRING = '';
 const NEW_LINE = '\n';
+const DASH = '-';
+const DEFAULT_OPTIONS = 'lcw';
 
 const countLines = function (text) {
   return text.split(NEW_LINE).length;
@@ -30,5 +32,7 @@ module.exports = {
   hasWordsCountOption,
   TAB,
   EMPTY_STRING,
-  SPACE
+  SPACE,
+  DASH,
+  DEFAULT_OPTIONS
 }

@@ -12,10 +12,9 @@ const {
   hasWordsCountOption
 } = require('../src/countUtil.js')
 
-const wcForSingleFile = function (fs, options, filePath) {
-  let fileContent = fs.readFileSync(filePath, 'utf8');
+const getCount = function (fs, options, filePath) {
   let count = [];
-
+  let fileContent = fs.readFileSync(filePath, 'utf8');
   if (hasLinesCountOption(options)) {
     count.push(countLines(fileContent) - 1);
   }
@@ -54,7 +53,7 @@ const joinCounts = function (counts, filePaths) {
 
 const wc = function (args, fs) {
   const { options, filePaths } = parseArgs(args);
-  let bindedWc = wcForSingleFile.bind(null, fs, options);
+  let bindedWc = getCount.bind(null, fs, options);
   let counts = filePaths.map(bindedWc);
   if (filePaths.length > 1) {
     counts.push(totalCounts(counts));
