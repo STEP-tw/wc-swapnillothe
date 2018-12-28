@@ -2,7 +2,7 @@ const {
   DASH,
   DEFAULT_OPTIONS,
   EMPTY_STRING
-} = require('../src/countUtil.js');
+} = require('../src/constants.js');
 
 const createParsedArgs = function (options, filePaths) {
   return { options, filePaths }
@@ -41,8 +41,15 @@ const getFileStartingIndex = function (args) {
   return getOptions(args).length;
 }
 
+
+const rearrangeOptions = function (options) {
+  const possibleOptions = ['l', 'w', 'c'];
+  return possibleOptions.filter(option => options.includes(option));
+}
+
 const parseArgs = function (args) {
   let options = getOptions(args).join(EMPTY_STRING) || DEFAULT_OPTIONS;
+  options = rearrangeOptions(options);
   let files = getFilePaths(args);
   return createParsedArgs(options, files);
 }

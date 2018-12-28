@@ -6,12 +6,11 @@ const {
   getCount,
   totalCounts,
   joinCounts
-} = require('../src/countUtil.js')
+} = require('../src/countUtil.js');
 
 const wc = function (args, fs) {
   const { options, filePaths } = parseArgs(args);
-  let bindedWc = getCount.bind(null, fs, options);
-  let counts = filePaths.map(bindedWc);
+  let counts = filePaths.map(getCount.bind(null, fs, options));
   if (filePaths.length > 1) {
     counts.push(totalCounts(counts));
     filePaths.push('total');
