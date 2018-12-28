@@ -51,6 +51,7 @@ const joinCounts = function (counts, filePaths) {
   return joinedCounts;
 }
 
+
 const wc = function (args, fs) {
   const { options, filePaths } = parseArgs(args);
   let bindedWc = getCount.bind(null, fs, options);
